@@ -1,15 +1,11 @@
 package com.npx.npx.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notifications")
-@Getter
-@Setter
 public class WorkspaceNotification {
 	public WorkspaceNotification() {
 	}

@@ -1,18 +1,12 @@
 package com.npx.npx.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import com.npx.npx.domain.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "time_logs")
-@Getter
-@Setter
 public class TimeLog {
 public TimeLog() {
 	}

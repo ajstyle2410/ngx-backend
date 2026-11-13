@@ -1,16 +1,11 @@
 package com.npx.npx.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "audit_logs")
-@Getter
-@Setter
 public class AuditLog {
 	
 	public AuditLog() {

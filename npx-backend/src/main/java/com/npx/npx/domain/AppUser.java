@@ -1,16 +1,12 @@
 package com.npx.npx.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
 public class AppUser {
 	public AppUser() {
 	}
