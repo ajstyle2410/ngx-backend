@@ -28,7 +28,8 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtFilter) throws Exception {
 		return http
 				.csrf(AbstractHttpConfigurer::disable)
-				.cors(cors -> {})
+				.cors(cors -> {
+				})
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -42,13 +43,15 @@ public class SecurityConfig {
 						.authenticationEntryPoint((request, response, exception) -> {
 							response.setStatus(401);
 							response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-							response.getWriter().printf("{\"status\":401,\"message\":\"Authentication required or token expired.\",\"timestamp\":\"%s\"}",
+							response.getWriter().printf(
+									"{\"status\":401,\"message\":\"Authentication required or token expired.\",\"timestamp\":\"%s\"}",
 									LocalDateTime.now());
 						})
 						.accessDeniedHandler((request, response, exception) -> {
 							response.setStatus(403);
 							response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-							response.getWriter().printf("{\"status\":403,\"message\":\"You do not have permission to access this resource.\",\"timestamp\":\"%s\"}",
+							response.getWriter().printf(
+									"{\"status\":403,\"message\":\"You do not have permission to access this resource.\",\"timestamp\":\"%s\"}",
 									LocalDateTime.now());
 						}))
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -61,14 +64,29 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	CorsConfigurationSource corsConfigurationSource(@Value("${app.cors.origin}") String origin) {
+	CorsConfigurationSource corsConfigurationSource(
+			@Value("${app.cors.origin}") String origin) {
+
 		CorsConfiguration config = new CorsConfiguration();
+
 		config.setAllowedOrigins(List.of(origin));
-		config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-		config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-		config.setExposedHeaders(List.of("Content-Disposition"));
+
+		config.setAllowedMethods(List.of(
+				"GET", "POST", "PUT",
+				"PATCH", "DELETE", "OPTIONS"));
+
+		config.setAllowedHeaders(List.of("*"));
+
+		config.setExposedHeaders(
+				List.of("Content-Disposition"));
+
+		config.setAllowCredentials(true);
+
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
 		source.registerCorsConfiguration("/**", config);
+
 		return source;
 	}
+
 }
